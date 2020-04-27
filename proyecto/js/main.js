@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 const compose = (...functions) => data => functions.reduceRight((value, func) => func(value), data)
 // {
 //   tag: 'h1',
@@ -12,21 +12,30 @@ const attrToString = (obj = {}) => {
   const attrs = [] 
   for (let i = 0; i < keys.length; i++) {
     let attr = keys[i];
-    attrs.push(`${attr}="${obj[attr]}" `)
+    attrs.push(` ${attr}="${obj[attr]}"`)
   }
   const string = attrs.join('');
   return string;
 }
 
-console.log(attrToString({class: 'title', paceholder: 'input'}))
+// console.log(attrToString({class: 'title', paceholder: 'input'}))
 
 
 // 'tag="h1" class="title"'
 
-const tag = ( t, content ) => `<${t}>${content}</${t}>`
+const tagAttrs = obj => (content = "") => 
+`<${obj.tag}${attrToString(obj.attrs)}>${content}</${obj.tag}>`
 
-console.log( tag('h1','Title'))
+console.log(tagAttrs({tag:'h1', attrs: { class: 'title',algo: 'title',}})('Hola a todos') )
 
+const tag = t => {
+  if ( typeof t === 'string') {
+    tagAttrs({tag: t})
+  }else{
+    tagAttrs(t)
+  }
+}
+// console.log(tag({tag:'h1', attrs: { class: 'title'}}))
 
 
 let description = document.getElementById('description');
